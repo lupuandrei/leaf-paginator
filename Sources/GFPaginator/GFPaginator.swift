@@ -1,6 +1,8 @@
 import Async
 import Leaf
 
+typealias HTML = String
+
 public final class GFPaginator: TagRenderer {
   public init() {}
   
@@ -8,55 +10,50 @@ public final class GFPaginator: TagRenderer {
   
   public func render(tag: TagContext) throws -> Future<TemplateData> {
     try tag.requireParameterCount(1)
-    let _ = try GFPaginator.ArgumentBox(tag.parameters.first!)
+    let argumentBox = try GFPaginator.ArgumentBox(tag.parameters.first!)
     
-//    debugPrint(pgtor, separator: " ")
     
-//    try tag.requireParameterCount(5)
-    
-//    let current = tag.parameters[0].int!
-//    let nextPage = tag.parameters[1].int
-//    let previousPage = tag.parameters[2].int
-//    let maxPage = tag.parameters[3].int!
-//    let itemsPerPage = tag.parameters[4].int!
-//
-    // without paginator
-//    guard maxPage > 1 else {
-//      return Future.map(on: tag, {
-//        TemplateData.null
-//      })
-//    }
-//
-//    let paginator = self.paginatorHTML2(previousPage, current, nextPage, itemsPerPage)
-//
     return Future.map(on: tag, {
-      TemplateData.string("paginator")
+      TemplateData.string(argumentBox.styleType.generateHTML(argumentBox))
     })
   }
+}
+
+
+// MARK: - Generate HTML (Paginator)
+extension GFPaginator.StyleType {
+  func generateHTML(_ argumentBox: GFPaginator.ArgumentBox) -> HTML {
+    switch self {
+    case .disabled:
+      return self.disableStyleHTML(argumentBox)
+    case .hidden:
+      return self.hiddenStyleHTML(argumentBox)
+    }
+  }
   
-  /// Remove **Previous** and **Next** from paginator if **previousPage** and **nextPage** are nil
-  private func paginatorHTML(_ previousPage: Int?, _ current: Int, _ nextPage: Int?, _ itemsPerPage: Int) -> String {
+  /// Make **Previous** and **Next** disabled if **previousPage** and **nextPage** are nil
+  private func disableStyleHTML(_ argumentBox: GFPaginator.ArgumentBox) -> HTML {
     var paginator = """
     <nav aria-label="Navigation">
     <ul class="pagination">
     """
     
     // previous page
-    if let prev = previousPage {
+    if let prev = argumentBox.previous {
       paginator += """
-      <li class="page-item"><a class="page-link" href="?page=\(prev)&per=\(itemsPerPage)">Previous</a></li>
+      <li class="page-item"><a class="page-link" href="?page=\(prev)&per=\(argumentBox.itemsPerPage)">Previous</a></li>
       """
     }
     
     // current page
     paginator += """
-    <li class="page-item active"><a class="page-link" href="?page=\(current)&per=\(itemsPerPage)">\(current)</a></li>
+    <li class="page-item active"><a class="page-link" href="?page=\(argumentBox.current)&per=\(argumentBox.itemsPerPage)">\(argumentBox.current)</a></li>
     """
     
     // next page
-    if let next = nextPage {
+    if let next = argumentBox.next {
       paginator += """
-      <li class="page-item"><a class="page-link" href="?page=\(next)&per=\(itemsPerPage)">Next</a></li>
+      <li class="page-item"><a class="page-link" href="?page=\(next)&per=\(argumentBox.itemsPerPage)">Next</a></li>
       """
     }
     
@@ -68,17 +65,19 @@ public final class GFPaginator: TagRenderer {
     return paginator
   }
   
-  /// Make **Previous** and **Next** disabled if **previousPage** and **nextPage** are nil
-  private func paginatorHTML2(_ previousPage: Int?, _ current: Int, _ nextPage: Int?, _ itemsPerPage: Int) -> String {
+  /// Remove **Previous** and **Next** from paginator if **previousPage** and **nextPage** are nil
+  private func hiddenStyleHTML(_ argumentBox: GFPaginator.ArgumentBox) -> HTML {
     let paginator =  """
     <nav aria-label="Navigation">
     <ul class="pagination">
-    <li class="page-item \(previousPage == nil ? "disabled" : "")"><a class="page-link" href="?page=\(previousPage ?? 0)&per=\(itemsPerPage)">Previous</a></li>
-    <li class="page-item active"><a class="page-link" href="?page=\(current)&per=\(itemsPerPage)">\(current)</a></li>
-    <li class="page-item \(nextPage == nil ? "disabled": "")"><a class="page-link" href="?page=\(nextPage ?? 0)&per=\(itemsPerPage)">Next</a></li>
+    <li class="page-item \(argumentBox.previous == nil ? "disabled" : "")"><a class="page-link" href="?page=\(argumentBox.previous ?? 0)&per=\(argumentBox.itemsPerPage)">Previous</a></li>
+    <li class="page-item active"><a class="page-link" href="?page=\(argumentBox.current)&per=\(argumentBox.itemsPerPage)">\(argumentBox.current)</a></li>
+    <li class="page-item \(argumentBox.next == nil ? "disabled": "")"><a class="page-link" href="?page=\(argumentBox.next ?? 0)&per=\(argumentBox.itemsPerPage)">Next</a></li>
     </ul>
     </nav>
     """
     return paginator
   }
 }
+
+

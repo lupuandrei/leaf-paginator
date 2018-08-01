@@ -7,10 +7,10 @@ extension GFPaginator {
     let next: Int?
     let previous: Int?
     let numberOfPages: Int
-    let itemsPerPage: Int?
+    let itemsPerPage: Int
     let styleType: GFPaginator.StyleType
     
-    public init(current: Int, next: Int? = nil, previous: Int? = nil, numberOfPages: Int, itemsPerPage: Int? = nil, styleType: GFPaginator.StyleType = .disabled) {
+    public init(current: Int, next: Int? = nil, previous: Int? = nil, numberOfPages: Int, itemsPerPage: Int, styleType: GFPaginator.StyleType = .disabled) {
       self.current = current
       self.next = next
       self.previous = previous
