@@ -23,7 +23,7 @@ extension GFPaginator {
       self.current = pageInfo.position.current
       self.next = pageInfo.position.next
       self.previous = pageInfo.position.previous
-      self.numberOfPages = pageInfo.data.total
+      self.numberOfPages = pageInfo.position.max
       self.itemsPerPage = pageInfo.data.per
       
       self.styleType = styleType
