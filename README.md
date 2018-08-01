@@ -2,22 +2,59 @@
 
 Vapor 3. Leaf Bootstrap paginator
 
-# Usage
+
+## Requirements
+
+1. Vapor 3. [Documentation](https://github.com/vapor/vapor)
+2. Bootstrap 4. [Documentation](https://getbootstrap.com/docs/4.0/components/pagination/)
+3. Pagination 1. [Documentation](https://github.com/vapor-community/pagination)
+
+
+## Usage
 Once set up, you can use it in your Leaf template files like any other tag:
 
 ```
 #paginator(paginatorArgBox)
 ```
 
-# Requirements
+`#paginator` has one parameter, an object instantiate from struct `GFPaginator.ArgumentBox`.
 
-1. Vapor 3. [Documentation](https://github.com/vapor/vapor)
-2. Bootstrap 4. [Documentation](https://getbootstrap.com/docs/4.0/components/pagination/)
-3. Pagination 1. [Documentation](https://github.com/vapor-community/pagination)
+You can configure the paging style by setting one of the two options (`GFPaginator.StyleType`):
+1. disabled: buttons *(previous & next)* will be disabled if previous & next are `nil`
+2. hidden: buttons *(previous & next)* will be hidden if previous & next are `nil`
 
-# Setup
+### Example how to use
+Controller:
+```
+class UserController: RouteCollection {
+...
+  func indexHandler(_ req: Request) throws -> Future<View> {
+    return try User.query(on: req).filter(\User.roleType != .admin).paginate(for: req).flatMap({ (users) in
+      let paginatorArgBox = GFPaginator.ArgumentBox(users.page)
+      let context = IndexContext(users: users, paginatorArgBox: paginatorArgBox)
+      return try req.view().render("User/index", context)      
+    })
+  }
+}
 
-## Add as dependency
+extension UserController {
+  struct IndexContext: Encodable {
+    let users: Paginated<User>
+    let paginatorArgBox: GFPaginator.ArgumentBox
+  }
+}
+
+```
+
+Leaf:
+
+```
+#paginator(paginatorArgBox)
+```
+
+## Setup
+
+### Add as dependency
 Add Leaf Markdown as a dependency in your `Package.swift` file:
 
 ```
@@ -27,7 +64,7 @@ dependencies: [
 ]
 ```
 
-## Register with Leaf
+### Register with Leaf
 To add the tag to Leaf, add it to your `LeafTagConfig`:
 ```
   var tags = LeafTagConfig.default()
