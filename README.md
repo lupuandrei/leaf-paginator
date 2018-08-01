@@ -1,7 +1,7 @@
 # GFPaginator
 
 Vapor 3. Leaf Bootstrap paginator
-
+This package comes as an extension of the [Pagination](https://github.com/vapor-community/pagination) package
 
 ## Requirements
 
