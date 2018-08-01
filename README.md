@@ -6,7 +6,7 @@ Paginator with previous + current + next
 ![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/next%2Bcurrent%2Bnext.png "next + current + previous")
 
 Paginator style `hidden`: 
-![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/next%20hidden.png "Next button hidden")
+![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/previous%20hidden.png "Next button hidden")
 
 Paginator style `disable`: 
 ![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/previous%20disabled.png "Previous button disabled")
