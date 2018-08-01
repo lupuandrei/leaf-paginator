@@ -12,6 +12,10 @@ public final class GFPaginator: TagRenderer {
     try tag.requireParameterCount(1)
     let argumentBox = try GFPaginator.ArgumentBox(tag.parameters.first!)
     
+    // without paging if there is only one page
+    guard argumentBox.numberOfPages > 1 else {
+      return Future.map(on: tag, { TemplateData.null })
+    }
     
     return Future.map(on: tag, {
       TemplateData.string(argumentBox.styleType.generateHTML(argumentBox))
