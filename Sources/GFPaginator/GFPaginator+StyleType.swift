@@ -24,6 +24,20 @@ extension GFPaginator.StyleType {
   
   /// Make **Previous** and **Next** disabled if **previousPage** and **nextPage** are nil
   private func disableStyleHTML(_ argumentBox: GFPaginator.ArgumentBox) -> HTML {
+    let paginator =  """
+    <nav aria-label="Navigation">
+    <ul class="pagination">
+    <li class="page-item \(argumentBox.previous == nil ? "disabled" : "")"><a class="page-link" href="?page=\(argumentBox.previous ?? 0)&per=\(argumentBox.itemsPerPage)">Previous</a></li>
+    <li class="page-item active"><a class="page-link" href="?page=\(argumentBox.current)&per=\(argumentBox.itemsPerPage)">\(argumentBox.current)</a></li>
+    <li class="page-item \(argumentBox.next == nil ? "disabled": "")"><a class="page-link" href="?page=\(argumentBox.next ?? 0)&per=\(argumentBox.itemsPerPage)">Next</a></li>
+    </ul>
+    </nav>
+    """
+    return paginator
+  }
+  
+  /// Remove **Previous** and **Next** from paginator if **previousPage** and **nextPage** are nil
+  private func hiddenStyleHTML(_ argumentBox: GFPaginator.ArgumentBox) -> HTML {
     var paginator = """
     <nav aria-label="Navigation">
     <ul class="pagination">
@@ -53,20 +67,6 @@ extension GFPaginator.StyleType {
     </nav>
     """
     
-    return paginator
-  }
-  
-  /// Remove **Previous** and **Next** from paginator if **previousPage** and **nextPage** are nil
-  private func hiddenStyleHTML(_ argumentBox: GFPaginator.ArgumentBox) -> HTML {
-    let paginator =  """
-    <nav aria-label="Navigation">
-    <ul class="pagination">
-    <li class="page-item \(argumentBox.previous == nil ? "disabled" : "")"><a class="page-link" href="?page=\(argumentBox.previous ?? 0)&per=\(argumentBox.itemsPerPage)">Previous</a></li>
-    <li class="page-item active"><a class="page-link" href="?page=\(argumentBox.current)&per=\(argumentBox.itemsPerPage)">\(argumentBox.current)</a></li>
-    <li class="page-item \(argumentBox.next == nil ? "disabled": "")"><a class="page-link" href="?page=\(argumentBox.next ?? 0)&per=\(argumentBox.itemsPerPage)">Next</a></li>
-    </ul>
-    </nav>
-    """
     return paginator
   }
 }
