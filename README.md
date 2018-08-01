@@ -1,8 +1,16 @@
 # GFPaginator
 
 Vapor 3. Leaf Bootstrap paginator
-This package comes as an extension of the [Pagination](https://github.com/vapor-community/pagination) package
+This package comes as an extension of the [Pagination](https://github.com/vapor-community/pagination) package.
 
+Paginator with previous + current + next
+![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/next%2Bcurrent%2Bnext.png "next + current + previous")
+
+Paginator style `hidden`: 
+![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/next%20hidden.png "Next button hidden")
+
+Paginator style `disable`: 
+![alt text](https://github.com/lupuandrei/leaf-paginator/blob/master/previous%20disabled.png "Previous button disabled")
 ## Requirements
 
 1. Vapor 3. [Documentation](https://github.com/vapor/vapor)
