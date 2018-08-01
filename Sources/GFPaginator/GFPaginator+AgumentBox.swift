@@ -10,7 +10,7 @@ extension GFPaginator {
     let itemsPerPage: Int?
     let styleType: GFPaginator.StyleType
     
-    init(current: Int, next: Int? = nil, previous: Int? = nil, numberOfPages: Int, itemsPerPage: Int? = nil, styleType: GFPaginator.StyleType = .disabled) {
+    public init(current: Int, next: Int? = nil, previous: Int? = nil, numberOfPages: Int, itemsPerPage: Int? = nil, styleType: GFPaginator.StyleType = .disabled) {
       self.current = current
       self.next = next
       self.previous = previous
@@ -19,7 +19,7 @@ extension GFPaginator {
       self.styleType = styleType
     }
     
-    init(_ pageInfo: PageInfo, styleType: GFPaginator.StyleType = .disabled) {
+    public init(_ pageInfo: PageInfo, styleType: GFPaginator.StyleType = .disabled) {
       self.current = pageInfo.position.current
       self.next = pageInfo.position.next
       self.previous = pageInfo.position.previous
@@ -47,7 +47,7 @@ extension GFPaginator {
 
 // MARK: - Error type
 extension GFPaginator.ArgumentBox {
-  enum ErrorType: Error {
+  public enum ErrorType: Error {
     case invalidArguments
   }
 }
