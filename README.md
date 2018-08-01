@@ -27,10 +27,13 @@ You can configure the paging style by setting one of the two options (`GFPaginat
 
 **controller.swift**:
 ```
+import Pagination
+import GFPaginator
+
 class UserController: RouteCollection {
 ...
   func indexHandler(_ req: Request) throws -> Future<View> {
-    return try User.query(on: req).filter(\User.roleType != .admin).paginate(for: req).flatMap({ (users) in
+    return try User.query(on: req).paginate(for: req).flatMap({ (users) in
       let paginatorArgBox = GFPaginator.ArgumentBox(users.page)
       let context = IndexContext(users: users, paginatorArgBox: paginatorArgBox)
       return try req.view().render("User/index", context)      
