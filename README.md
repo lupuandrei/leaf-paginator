@@ -24,7 +24,8 @@ You can configure the paging style by setting one of the two options (`GFPaginat
 2. hidden: buttons *(previous & next)* will be hidden if previous & next are `nil`
 
 ### Example how to use
-Controller:
+
+**controller.swift**:
 ```
 class UserController: RouteCollection {
 ...
@@ -46,7 +47,7 @@ extension UserController {
 
 ```
 
-Leaf:
+**index.leaf**:
 
 ```
 #paginator(paginatorArgBox)
